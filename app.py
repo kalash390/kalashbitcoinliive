@@ -5,9 +5,12 @@ import plotly.graph_objects as go
 from dotenv import load_dotenv
 import os
 from datetime import datetime
+from pathlib import Path
 
-# Load environment variables from .env file
-load_dotenv()
+# Load .env from the same folder as app.py (explicit path — fixes most issues)
+env_path = Path(__file__).parent / ".env"
+load_dotenv(dotenv_path=env_path)
+
 API_KEY = os.getenv("API_KEY")
 
 # Page configuration
@@ -55,6 +58,12 @@ def fetch_historical_data():
     df["time"] = pd.to_datetime(df["timestamp"], unit="ms")
     return df
 
+
+# ── Debug helper (remove after confirming it works) ──────────────────────────
+with st.expander("🔧 Debug Info (remove after fixing)"):
+    st.write(f"Looking for .env at: `{env_path}`")
+    st.write(f".env file exists: `{env_path.exists()}`")
+    st.write(f"API_KEY loaded: `{'✅ Yes' if API_KEY else '❌ No — key missing or wrong filename'}`")
 
 # ── Check API key ─────────────────────────────────────────────────────────────
 if not API_KEY:
@@ -138,3 +147,4 @@ except Exception as e:
     st.warning(f"⚠️ Could not load historical chart: {e}")
 
 st.caption("Historical data provided by CoinGecko (public API, no key required).")
+
