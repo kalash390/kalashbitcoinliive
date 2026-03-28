@@ -8,7 +8,7 @@ from datetime import datetime
 
 # Load environment variables from .env file
 load_dotenv()
-API_KEY = os.getenv("a15799b9897041429e25ae769b50c813")
+API_KEY = os.getenv("API_KEY")
 
 # Page configuration
 st.set_page_config(
